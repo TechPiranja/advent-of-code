@@ -18,6 +18,31 @@ export async function getDay3Answer() {
 export async function getDay3_2Answer() {
   const input = await readInput();
   const inputArray = input.split("\n");
+
+  let mulSum = 0;
+  let doEnabled = true;
+
+  inputArray.forEach((line) => {
+    const instructions = [
+      ...line.matchAll(/(mul\((\d+),(\d+)\)|do\(\)|don't\(\))/g),
+    ];
+
+    instructions.forEach((match) => {
+      if (match[0].startsWith("mul(")) {
+        if (doEnabled) {
+          const x = parseInt(match[2]);
+          const y = parseInt(match[3]);
+          mulSum += x * y;
+        }
+      } else if (match[0] === "do()") {
+        doEnabled = true;
+      } else if (match[0] === "don't()") {
+        doEnabled = false;
+      }
+    });
+  });
+
+  return mulSum;
 }
 
 // reads input from a file
