@@ -68,7 +68,31 @@ export async function getDay5Answer() {
 }
 
 export async function getDay5_2Answer() {
-  return 0;
+  const { order, pages } = await readInput();
+  const pageArr = pages.split("\n");
+  const adjacencyList = buildAdjacencyList(order);
+
+  let sum = 0;
+
+  // Process each update
+  for (const pageLine of pageArr) {
+    const splitPages = pageLine.split(",").map(Number);
+
+    if (!isValidUpdate(splitPages, adjacencyList)) {
+      // sort correctly
+      splitPages.sort((a, b) => {
+        if (adjacencyList[a]?.before.includes(b)) return -1;
+        if (adjacencyList[b]?.before.includes(a)) return 1;
+        return 0;
+      });
+
+      // Get the middle page of the valid update
+      const middle = Math.floor(splitPages.length / 2);
+      sum += splitPages[middle];
+    }
+  }
+
+  return sum;
 }
 
 // Reads input from a file
