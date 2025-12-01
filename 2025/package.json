@@ -1,5 +1,5 @@
 {
-  "name": "advent-of-code",
+  "name": "advent-of-code-2025",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
